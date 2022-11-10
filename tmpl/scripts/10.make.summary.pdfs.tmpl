@@ -1,0 +1,5 @@
+module load matplotlib/2.1.2-foss-2017a-python-3.6.4
+
+$SNHIC_PATH/10.make.summary.pdfs.py ?BALANCE_OPTION? ?SADDLE_PLOTS_OPTION? --tags ?TAGS? --max-exp-loop-size ?MAX_EXP_LOOP_SIZE? --plots-per-page ?PLOTS_PER_PAGE? --figure-name ?FIGURE_NAME? --stats-dir ?FINAL_STATS_DIR? --cooler-dir ?COOLERS_MERGED_DIR? --samples-file ?SAMPLES_FILE? --data-processed-dir ?DATA_PROCESSED_DIR? --output-dir ?DATA_PDFS_DIR?
+
+echo 'written to -> ?DATA_PDFS_DIR?'

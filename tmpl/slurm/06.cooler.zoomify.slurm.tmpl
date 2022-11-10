@@ -1,0 +1,30 @@
+#! /usr/bin/env bash
+#SBATCH --job-name=06.cooler.zoomify
+#SBATCH --workdir=.
+#SBATCH --error=?CLUSTER_OUTPUT_DIR?/%A.%a.err
+#SBATCH --output=?CLUSTER_OUTPUT_DIR?/%A.%a.out
+
+# resources
+#SBATCH --qos=short
+#SBATCH --time=1:00:00
+#SBATCH --nodes=1
+#SBATCH --mem=8GB
+#SBATCH --cpus-per-task=1
+
+start_time=$(date +%s)
+echo "start time: $start_time"
+
+step=0;
+while [[ $step -lt $SLURM_ARRAY_TASK_STEP ]]
+do
+    index=$(($SLURM_ARRAY_TASK_ID+$step))
+    if [[ $index -le $SLURM_ARRAY_TASK_MAX ]];
+    then
+        eval $(sed -n ${index}p ?SLURM_DIR?/06.cooler.zoomify.cmds.txt) || exit 100
+    fi
+    step=$(($step+1))
+done
+
+end_time=$(date +%s)
+echo "end time: $end_time"
+echo "run time: $((${end_time}-${start_time}))"

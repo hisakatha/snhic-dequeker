@@ -1,0 +1,33 @@
+#! /usr/bin/env bash
+#SBATCH --job-name=01.sam.fastq
+#SBATCH --workdir=.
+#SBATCH --error=?CLUSTER_OUTPUT_DIR?/%A.%a.err
+#SBATCH --output=?CLUSTER_OUTPUT_DIR?/%A.%a.out
+
+# resources
+#SBATCH --qos=short
+#SBATCH --time=1:00:00
+#SBATCH --nodes=1
+#SBATCH --mem=32GB
+#SBATCH --cpus-per-task=?SAMTOOLS_THREADS?
+
+module load samtools/1.4-foss-2017a
+
+start_time=$(date +%s)
+echo "start time: $start_time"
+
+step=0;
+while [[ $step -lt $SLURM_ARRAY_TASK_STEP ]]
+do
+    index=$(($SLURM_ARRAY_TASK_ID+$step))
+    max_id=$(($SLURM_ARRAY_TASK_ID+$SLURM_ARRAY_TASK_STEP-1))
+    if [[ $index -le $max_id ]];
+    then
+        eval $(sed -n ${index}p ?SLURM_DIR?/01.samtools.fastq.cmds.txt) || exit 100
+    fi
+    step=$(($step+1))
+done
+
+end_time=$(date +%s)
+echo "end time: $end_time"
+echo "run time: $((${end_time}-${start_time}))"

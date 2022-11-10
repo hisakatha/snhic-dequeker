@@ -1,0 +1,7 @@
+$SNHIC_PATH/05.cooler.cload.pairs.cmds.py --resolutions ?CLOAD_RESOLUTIONS? ?PAIRTOOLS_OUTPUT_PAIRS_DIR? ?COOLER_DIR? ?STATS_DIR? ?CHROM_SIZES_FILE? > ?SLURM_DIR?/05.cooler.cload.pairs.cmds.txt
+
+JOBS=`cat ?SLURM_DIR?/05.cooler.cload.pairs.cmds.txt | wc -l`
+sed -i -e "s/%JOBS%/$JOBS/g" ?SLURM_DIR?/05.cooler.cload.pairs.slurm.sh
+
+echo "written to -> ?SLURM_DIR?/05.cooler.cload.pairs.cmds.txt"
+echo "sbatch --array=1-$JOBS:1 ?SLURM_DIR?/05.cooler.cload.pairs.slurm.sh"

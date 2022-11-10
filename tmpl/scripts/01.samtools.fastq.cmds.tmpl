@@ -1,0 +1,7 @@
+$SNHIC_PATH/01.samtools.fastq.cmds.py --threads ?SAMTOOLS_THREADS? ?BAM_DIR? ?FASTQ_DIR? > ?SLURM_DIR?/01.samtools.fastq.cmds.txt
+
+JOBS=`cat ?SLURM_DIR?/01.samtools.fastq.cmds.txt | wc -l`
+sed -i -e "s/%JOBS%/$JOBS/g" ?SLURM_DIR?/01.samtools.fastq.slurm.sh
+
+echo "written to -> ?SLURM_DIR?/01.samtools.fastq.cmds.txt"
+echo "sbatch --array=1-$JOBS:1 ?SLURM_DIR?/01.samtools.fastq.slurm.sh"

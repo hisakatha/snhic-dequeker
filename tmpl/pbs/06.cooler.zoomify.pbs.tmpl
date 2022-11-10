@@ -1,0 +1,30 @@
+#! /usr/bin/env bash
+
+#PBS -J 1-%JOBS%:1
+#PBS -N 06.cooler.zoomify
+#PBS --workdir=.
+#PBS -e ?CLUSTER_OUTPUT_DIR?/%A.%a.err
+#PBS -o ?CLUSTER_OUTPUT_DIR?/%A.%a.out
+
+# resources
+#PBS -l walltime=1:00:00
+#PBS -l select=1:ncpus=1
+#PBS -l mem=8GB
+
+start_time=$(date +%s)
+echo "start time: $start_time"
+
+step=0;
+while [[ $step -lt $SLURM_ARRAY_TASK_STEP ]]
+do
+    index=$(($SLURM_ARRAY_TASK_ID+$step))
+    if [[ $index -le $SLURM_ARRAY_TASK_MAX ]];
+    then
+        eval $(sed -n ${index}p ?SLURM_DIR?/06.cooler.zoomify.cmds.txt) || exit 100
+    fi
+    step=$(($step+1))
+done
+
+end_time=$(date +%s)
+echo "end time: $end_time"
+echo "run time: $((${end_time}-${start_time}))"

@@ -1,0 +1,7 @@
+$SNHIC_PATH/17.randomize.loop.strength.py --tags ?TAGS? --resolution ?AGGR_RESOLUTION? --conditions "?PAIRED_CONDITIONS?" --threads ?BOOTSTRAP_THREADS? --iterations ?RAND_LOOP_STRENGTH_ITERATIONS? --samples-file ?SAMPLES_FILE? --genome-path ?GENOME_DIR? --loops-file ?LOOPS_FILE? --cooler-dir ?COOLER_DIR? --output-dir ?BOOTSTRAP_OUTPUT_DIR? > ?SLURM_DIR?/17.randomize.loop.strength.cmds.txt
+
+JOBS=`cat ?SLURM_DIR?/17.randomize.loop.strength.cmds.txt | wc -l`
+sed -i -e "s/%JOBS%/$JOBS/g" ?SLURM_DIR?/17.randomize.loop.strength.slurm.sh
+
+echo "written to -> ?SLURM_DIR?/17.randomize.loop.strength.cmds.txt"
+echo "sbatch --array=1-$JOBS:1 ?SLURM_DIR?/17.randomize.loop.strength.slurm.sh"

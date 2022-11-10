@@ -1,0 +1,7 @@
+$SNHIC_PATH/03.pairtools.cmds.py --sort-threads ?SORT_THREADS? --assembly-name ?ASSEMBLY_NAME? --working-dir ?DATA_DIR? ?SAM_DIR? ?PAIRTOOLS_OUTPUT_PAIRS_DIR? ?PAIRTOOLS_OUTPUT_SAM_DIR? ?CHROM_SIZES_FILE? > ?SLURM_DIR?/03.pairtools.cmds.txt
+
+JOBS=`cat ?SLURM_DIR?/03.pairtools.cmds.txt | wc -l`
+sed -i -e "s/%JOBS%/$JOBS/g" ?SLURM_DIR?/03.pairtools.slurm.sh
+
+echo "written to -> ?SLURM_DIR?/03.pairtools.cmds.txt"
+echo "sbatch --array=1-$JOBS:1 ?SLURM_DIR?/03.pairtools.slurm.sh"

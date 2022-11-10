@@ -1,0 +1,7 @@
+$SNHIC_PATH/09.analyze.data.py ?BALANCE_OPTION? ?SADDLE_PLOTS_OPTION? --tags ?TAGS? --resolution ?AGGR_RESOLUTION? --genome-file ?GENOME_FILE? --genome-path ?GENOME_DIR? --loops-file ?LOOPS_FILE? --domains-file ?DOMAINS_FILE? --scaling-ref-file ?SCALING_REF_FILE? --samples-file ?SAMPLES_FILE? --cooler-dir ?COOLERS_MERGED_DIR? --output-dir ?DATA_PROCESSED_DIR? --chrom-sizes-file ?CHROM_SIZES_FILE? > ?SLURM_DIR?/09.analyze.data.cmds.txt
+
+JOBS=`cat ?SLURM_DIR?/09.analyze.data.cmds.txt | wc -l`
+sed -i -e "s/%JOBS%/$JOBS/g" ?SLURM_DIR?/09.analyze.data.slurm.sh
+
+echo "written to -> ?SLURM_DIR?/09.analyze.data.cmds.txt"
+echo "sbatch --array=1-$JOBS:1 ?SLURM_DIR?/09.analyze.data.slurm.sh"

@@ -1,0 +1,35 @@
+#! /usr/bin/env bash
+#PBS -J 1-%JOBS%:1
+#PBS -N 01.sam.fastq
+#PBS -e ?CLUSTER_OUTPUT_DIR?
+#PBS -o ?CLUSTER_OUTPUT_DIR?
+
+# resources
+#PBS -l walltime=1:00:00
+#PBS -l select=1:ncpus=?SAMTOOLS_THREADS?
+#PBS -l mem=64GB
+
+# Change to current working directory (directory where qsub was executed)
+# within PBS job (workaround for SGE option "-cwd")
+cd $PBS_O_WORKDIR
+cd ../
+
+module load samtools/1.4-foss-2017a
+
+start_time=$(date +%s)
+echo "start time: $start_time"
+
+step=0;
+while [[ $step -lt $SLURM_ARRAY_TASK_STEP ]]
+do
+    index=$(($SLURM_ARRAY_TASK_ID+$step))
+    if [[ $index -le $SLURM_ARRAY_TASK_MAX ]];
+    then
+        eval $(sed -n ${index}p ?SLURM_DIR?/01.samtools.fastq.cmds.txt) || exit 100
+    fi
+    step=$(($step+1))
+done
+
+end_time=$(date +%s)
+echo "end time: $end_time"
+echo "run time: $((${end_time}-${start_time}))"
