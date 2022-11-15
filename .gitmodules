@@ -1,0 +1,4 @@
+[submodule "mirnylib-legacy"]
+	path = mirnylib-legacy
+	url = https://github.com/hisakatha/mirnylib-legacy
+	branch = hg-python3

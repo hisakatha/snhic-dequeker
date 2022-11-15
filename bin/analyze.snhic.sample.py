@@ -9,8 +9,8 @@ import click
 import cooler
 import pickle
 import pandas as pd
-from snHiC.lib import coolerAnalysisShared as css
-from snHiC.lib import analyzeSnHiCSample as ass
+from lib import coolerAnalysisShared as css
+from lib import analyzeSnHiCSample as ass
 
 CONTEXT_SETTINGS = {'help_option_names': ['-h', '--help', '--rhonda'], }
 @click.version_option(version=__version__)

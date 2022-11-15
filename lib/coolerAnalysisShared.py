@@ -12,7 +12,7 @@ import pandas as pd
 import numpy as np
 
 from mirnylib.numutils import zoomArray, coarsegrain, ultracorrect, observedOverExpected, logbinsnew
-from hiclib.hicShared import getResolution
+#from hiclib.hicShared import getResolution
 
 import cooler
 from functools import reduce
@@ -45,7 +45,7 @@ def getLoopsAndDomains(genome_path, loops_file, domains_file):
         else:
             mask.append(False)
 
-    domainsLoops = loops.ix[mask]
+    domainsLoops = loops.iloc[mask]
 
     mask = list()
     for st, end in zip(domStartID, domEndID):
@@ -53,7 +53,7 @@ def getLoopsAndDomains(genome_path, loops_file, domains_file):
             mask.append(False)
         else:
             mask.append(True)
-    domainsNoLoops = domains.ix[mask]
+    domainsNoLoops = domains.iloc[mask]
 
     return {'loops': loops, 'domains': domains, 'loopDomains': domainsLoops, 'domainsNoLoops': domainsNoLoops}
 
@@ -101,7 +101,7 @@ def averageLoops(loopPositions, file_name, pad = 8, doBalance = False):
         mymap = np.zeros((2 * pad, 2 * pad), np.float64)
 
         data = c.matrix(balance = doBalance, sparse = True).fetch(c.chromnames[mychr]).tocsr()
-        current = loopPositions.ix[loopPositions["chrms"] == mychr]
+        current = loopPositions.loc[loopPositions["chrms"] == mychr]
 
         if len(current) <= 0:
             #print("len(current) = 0 for chr: {} file: {}".format(mychr, file_name))
@@ -170,7 +170,7 @@ def averageDomains(file_name, minSize=100000, maxSize=10000000, rescaledDomainSi
 
         data = c.matrix(balance=False).fetch(c.chromnames[mychr])
 
-        current = domainPositions.ix[domainPositions["chrms"] == int(mychr)]
+        current = domainPositions.loc[domainPositions["chrms"] == int(mychr)]
 
         if len(current) <= 0:
             #print("len(current) = 0 for chr: {} file: {}".format(mychr, file_name))
@@ -232,7 +232,7 @@ def averageDomainsError(filename, minSize=100000, maxSize=10000000,
 
         data = c.matrix(balance=False).fetch(c.chromnames[mychr])
 
-        current = domains.ix[domains["chrms"] == mychr]
+        current = domains.loc[domains["chrms"] == mychr]
         # try:
         assert len(current) > 0
 

@@ -6,10 +6,10 @@ import numpy as np
 import pandas as pd
 from scipy.linalg import toeplitz
 from sinkhorn_knopp import sinkhorn_knopp as skp
-from snHiC.lib import coolerAnalysisShared as css
+from lib import coolerAnalysisShared as css
 
-from cooltools import expected
-from cooltools import eigdecomp
+from cooltools.api import expected
+from cooltools.api import eigdecomp
 
 OVERWRITE = False
 
@@ -76,7 +76,7 @@ def doOnePileUp(data_file, save_folder, loopAndDomainDict, overwrite):
         for (_, lo, hi) in zip(range(len(separations[0:-1])), separations[0:-1], separations[1:]):
 
             goodLoops = (loopPositions['sep'] >= lo) & (loopPositions['sep'] < hi)
-            these_loops = loopPositions.ix[goodLoops]
+            these_loops = loopPositions.loc[goodLoops]
 
             (M, C, m_count, c_count) = css.averageLoopsWithControl(these_loops, data_file, numShifted = 100, pad = padsize)
 

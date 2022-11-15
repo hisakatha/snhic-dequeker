@@ -17,8 +17,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from snHiC.lib import coolerAnalysisShared as css
-from snHiC.lib import analyzeSnHiCSample as ass
+from lib import coolerAnalysisShared as css
+#from lib import analyzeSnHiCSample as ass
 from mirnylib.numutils import observedOverExpected, ultracorrect
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from pandas import ExcelWriter
